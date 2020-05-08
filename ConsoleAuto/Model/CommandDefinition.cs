@@ -25,5 +25,9 @@ namespace ConsoleAuto.Model
 
         public Dictionary<string, object> DefaultArgs { get; set; } = new Dictionary<string, object>();
 
+        public ExecutionMode Mode { get; set; } = ExecutionMode.OnDemand;
+
+        public int Order { get; set; }
+
     }
 }

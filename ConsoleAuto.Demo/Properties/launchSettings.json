@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ConsoleAuto.Demo": {
+      "commandName": "Project",
+      "commandLineArgs": "WriteText --text prova"
+    }
+  }
+}

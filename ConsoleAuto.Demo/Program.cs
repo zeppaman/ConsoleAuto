@@ -6,7 +6,9 @@ namespace ConsoleAuto.Demo
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            ConsoleAuto.Config(args)
+                .LoadCommands()
+                .Run();
         }
     }
 }

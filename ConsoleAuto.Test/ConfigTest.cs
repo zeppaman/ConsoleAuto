@@ -15,7 +15,7 @@ namespace ConsoleAuto.Demo.Test
         {
             ConsoleAutoConfig config=null;
             ConsoleAuto
-                .Config()
+                .Config(null)
                 .LoadFromClass(typeof(MyCommandClass))
                 .Configure(x => {
                     config = x;                   
@@ -31,7 +31,7 @@ namespace ConsoleAuto.Demo.Test
         {
             ConsoleAutoConfig config = null;
             ConsoleAuto
-                .Config()
+                .Config(null)
                 .LoadCommands(this.GetType().Assembly)
                 .Configure(x => {
                     config = x;
