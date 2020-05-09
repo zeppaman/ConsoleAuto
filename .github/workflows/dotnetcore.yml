@@ -12,14 +12,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: AArnott/nbgv@v0.3
+      
+    - uses: actions/checkout@v2
     - name: Nerdbank.GitVersioning
+      uses: AArnott/nbgv@v0.3
       with:
         setAllVars: true        
     - name: Print version  
       run: echo "NBGV_SemVer2 $NBGV_SemVer2"
-      
-    - uses: actions/checkout@v2
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
