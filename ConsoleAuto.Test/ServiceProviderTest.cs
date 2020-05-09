@@ -29,9 +29,10 @@ namespace ConsoleAuto.Test
         {
             var provider = new InternalServiceProvider();
 
-            
-            InternalServiceProvider.Services[typeof(ReflectionService)] = new ReflectionService(provider);
-            InternalServiceProvider.Services[typeof(ConsoleService)] = new ConsoleService();
+
+            var reflection = new ReflectionService(provider);
+            InternalServiceProvider.Services[typeof(ReflectionService)] = reflection;
+            InternalServiceProvider.Services[typeof(ConsoleService)] = new ConsoleService(reflection);
 
             var command=provider.GetService(typeof(IOCommands));
             Assert.NotNull(command);
