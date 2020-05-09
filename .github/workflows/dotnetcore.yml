@@ -20,7 +20,8 @@ jobs:
       #with:
        # setAllVars: true        
     - name: Print version  
-      run: echo "NBGV_SemVer2 $NBGV_SemVer2 or ${{steps.version.outputs.SemVer2 }}"
+      run: echo "SemVer2= ${{steps.version.outputs.SemVer2 }}" \
+          && echo "Simple= ${{steps.version.outputs.SemVer2 }}"
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
