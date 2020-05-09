@@ -10,7 +10,7 @@ namespace ConsoleAuto.Demo.Commands
         [ConsoleCommand()]
         public void CommandOne(int test=23, bool test2=true)
         {
-            Console.WriteLine($"{test} + {test2}");
+            Console.WriteLine($"You wrote {test} + {test2}");
         }
 
         [ConsoleCommand (info:"This command has no argument")]
