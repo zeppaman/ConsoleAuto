@@ -19,12 +19,14 @@ jobs:
    #   uses: AArnott/nbgv@v0.3
       #with:
        # setAllVars: true        
-    - name: install nbgv  
+    - name: install nbgv
+      id: manual  
       run: /usr/bin/dotnet tool install -g nbgv
     - name: run json
-      run: nbgv install && nbgv get-version -f json -p . | echo  && nbgv get-version -v Version
+      run: nbgv install && nbgv get-version -f json -p . | echo  && manual=(nbgv get-version -v Version)
     - name: Print version  
-      run: echo "SemVer2= ${{steps.version.outputs.SemVer2 }}" \
+      run: echo "manual $manual" \
+          && echo "SemVer2= ${{steps.version.outputs.SemVer2 }}" \
           && echo "AssemblyVersion= ${{steps.version.outputs.AssemblyVersion }}"\
           && echo "SimpleVersion= ${{steps.version.outputs.SimpleVersion }}"\
           && echo "BuildNumber= ${{steps.version.outputs.BuildNumber }}"\
