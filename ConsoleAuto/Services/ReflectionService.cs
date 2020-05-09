@@ -10,10 +10,9 @@ namespace ConsoleAuto.Services
 {
     public class ReflectionService
     {
-        public IServiceProvider sp;
-        public ReflectionService(IServiceProvider sp)
+       
+        public ReflectionService()
         {
-            this.sp = sp;
         }
         public List<MethodInfo> GetMethods(Type type, Type annotatedBy)
         {

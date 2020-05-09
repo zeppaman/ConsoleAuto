@@ -32,7 +32,7 @@ namespace ConsoleAuto.Demo.Test
             ConsoleAutoConfig config = null;
             ConsoleAuto
                 .Config(null)
-                .LoadCommands(this.GetType().Assembly)
+                .LoadCommands(typeof(MyCommandClass).Assembly)
                 .Configure(x => {
                     config = x;
                 });

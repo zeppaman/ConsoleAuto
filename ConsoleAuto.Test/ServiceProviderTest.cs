@@ -15,6 +15,7 @@ namespace ConsoleAuto.Test
         public void Native()
         {
             IServiceCollection serviceDescriptors = new ServiceCollection();
+            serviceDescriptors.AddSingleton<ReflectionService>();
             serviceDescriptors.AddSingleton<ConsoleService>();
 
             var sp=serviceDescriptors.BuildServiceProvider();
@@ -30,7 +31,7 @@ namespace ConsoleAuto.Test
             var provider = new InternalServiceProvider();
 
 
-            var reflection = new ReflectionService(provider);
+            var reflection = new ReflectionService();
             InternalServiceProvider.Services[typeof(ReflectionService)] = reflection;
             InternalServiceProvider.Services[typeof(ConsoleService)] = new ConsoleService(reflection);
 

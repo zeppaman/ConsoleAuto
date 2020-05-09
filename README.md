@@ -1,5 +1,6 @@
 # ConsoleAuto
 Library that automates console argument parsing and script automation.
+![.NET Core](https://github.com/zeppaman/ConsoleAuto/workflows/.NET%20Core/badge.svg)
 
 ## Why use this parsing library?
 Command line parsing is something that usually is approached in this way: you define argument syntax, you parse it using command line parser library and then you use the parameter into the applciation.
@@ -23,20 +24,20 @@ See the exampe to learn how this will simplify your console application.
 
 ```cs
 class Program
+{
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            ConsoleAuto.Config(args)
-                .LoadCommands()
-                .Run();
-        }
-
-        [ConsoleCommand]
-        public void MyMethod(string inputOne, int inputTwo)
-        {
-            //do stuff here  
-		}
+        ConsoleAuto.Config(args)
+            .LoadCommands()
+            .Run();
     }
+
+    [ConsoleCommand]
+    public void MyMethod(string inputOne, int inputTwo)
+    {
+        //do stuff here
+	}
+}
 ```
 
 this program will be usable running:
@@ -50,20 +51,20 @@ Each method annotated by ConsoleCommand is available for being invoked. Method c
 The default command is the info one, that shows usage information (generated automatically from command definitions)
 
 ```cs
- public class IOCommands
+public class IOCommands
+{
+    public ConsoleService consoleService;
+    public IOCommands(ConsoleService consoleService)
     {
-        public ConsoleService consoleService;
-        public IOCommands(ConsoleService consoleService)
-        {
-            this.consoleService = consoleService;
-        }
-
-        [ConsoleCommand(isPublic: false,info:"provide  this description")]
-        public void WriteText(string text, bool newline)
-        {
-            //do stuff here 
-        }
+        this.consoleService = consoleService;
     }
+
+    [ConsoleCommand(isPublic: false,info:"provide  this description")]
+    public void WriteText(string text, bool newline)
+    {
+        //do stuff here 
+    }
+}
 ```
 
 ### Advanced usage

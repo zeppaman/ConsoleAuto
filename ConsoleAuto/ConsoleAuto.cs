@@ -20,10 +20,10 @@ namespace ConsoleAuto
 
         private IServiceProvider sp;
         private IServiceCollection serviceBuilder;
-        public ConsoleAuto(string[] args, IServiceCollection serviceBuilder = null)
+        public ConsoleAuto(string[] args=null, IServiceCollection serviceBuilder = null)
         {
             config = new ConsoleAutoConfig();
-            this.args = new List<string>(args);
+            this.args = new List<string>(args??new string[] { });
 
             this.serviceBuilder = serviceBuilder ?? new ServiceCollection();
           
