@@ -1,6 +1,9 @@
-﻿using System;
+﻿//
+// Copyright (c) 2019 Daniele Fontani (https://github.com/zeppaman/ConsoleAuto/)
+// RawCMS project is released under LGPL3 terms, see LICENSE file.
+//
+
 using System.Collections.Generic;
-using System.Text;
 
 namespace ConsoleAuto.Model
 {
@@ -12,7 +15,6 @@ namespace ConsoleAuto.Model
 
         public ConsoleAutoConfig()
         {
-            
         }
     }
 }

@@ -1,25 +1,29 @@
-﻿using System;
+﻿//
+// Copyright (c) 2019 Daniele Fontani (https://github.com/zeppaman/ConsoleAuto/)
+// RawCMS project is released under LGPL3 terms, see LICENSE file.
+//
+
+using System;
 using System.Collections.Generic;
-using System.Text;
 using ConsoleAuto.Model;
 
 namespace ConsoleAuto.Services
 {
     public class ConsoleService
     {
-
         protected ReflectionService reflectionService;
 
         public ConsoleService(ReflectionService reflectionService)
         {
             this.reflectionService = reflectionService;
         }
+
         internal void WriteError(string v)
         {
             Console.WriteLine(v);
         }
 
-        public Dictionary<string,string> ParseInputArgs(string[] args)
+        public Dictionary<string, string> ParseInputArgs(string[] args)
         {
             int argPos = 0;
             var status = FSMStates.WaitForArg;
@@ -32,7 +36,6 @@ namespace ConsoleAuto.Services
                 if (status == FSMStates.WaitForArg)
                 {
                     var argName = args[argPos];
-
 
                     if (IsValidArg(argName))
                     {
@@ -49,7 +52,6 @@ namespace ConsoleAuto.Services
 
                     rawValues[currentArgName] = value;
                     status = FSMStates.WaitForArg;
-
                 }
 
                 argPos++;
@@ -58,11 +60,10 @@ namespace ConsoleAuto.Services
             return rawValues;
         }
 
-        internal T Read<T>() 
+        internal T Read<T>()
         {
-            var strVal= Console.ReadLine();
-            return (T)this.reflectionService.GetValue(typeof(T), strVal) ;
-            
+            var strVal = Console.ReadLine();
+            return (T)this.reflectionService.GetValue(typeof(T), strVal);
         }
 
         internal void Write(string text)
@@ -72,7 +73,6 @@ namespace ConsoleAuto.Services
 
         public void WriteLine(string text)
         {
-
             Console.WriteLine(text);
         }
 
