@@ -1,8 +1,9 @@
-﻿using System;
+﻿//
+// Copyright (c) 2019 Daniele Fontani (https://github.com/zeppaman/ConsoleAuto/)
+// RawCMS project is released under LGPL3 terms, see LICENSE file.
+//
+
 using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using System.Collections;
 using System.Reflection;
 
 namespace ConsoleAuto.Model
@@ -13,15 +14,13 @@ namespace ConsoleAuto.Model
 
         public string Desctiption { get; set; }
         public Dictionary<string, object> Args { get; set; } = new Dictionary<string, object>();
-
     }
-
 
     public class CommandImplementation
     {
         public string Name { get; set; }
 
-        public MethodInfo Method {get;set;}
+        public MethodInfo Method { get; set; }
 
         public Dictionary<string, object> DefaultArgs { get; set; } = new Dictionary<string, object>();
 
@@ -31,8 +30,6 @@ namespace ConsoleAuto.Model
 
         public bool IsPublic { get; set; } = true;
 
-
         public string Info { get; set; }
-
     }
 }

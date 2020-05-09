@@ -1,24 +1,29 @@
-﻿using System;
+﻿//
+// Copyright (c) 2019 Daniele Fontani (https://github.com/zeppaman/ConsoleAuto/)
+// RawCMS project is released under LGPL3 terms, see LICENSE file.
+//
+
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ConsoleAuto.Services
 {
     public class InternalServiceCollection : IServiceCollection
     {
+        private Dictionary<int, ServiceDescriptor> services = new Dictionary<int, ServiceDescriptor>();
 
-        Dictionary<int, ServiceDescriptor> services = new Dictionary<int, ServiceDescriptor>();
-        public ServiceDescriptor this[int index] { get 
+        public ServiceDescriptor this[int index]
+        {
+            get
             {
                 return services[index];
-            } 
-            set  
+            }
+            set
             {
                 services[index] = value;
-            } 
+            }
         }
 
         public int Count => services.Keys.Count;
@@ -27,7 +32,7 @@ namespace ConsoleAuto.Services
 
         public void Add(ServiceDescriptor item)
         {
-            services.Add(services.Count,item);
+            services.Add(services.Count, item);
         }
 
         public void Clear()
@@ -47,7 +52,7 @@ namespace ConsoleAuto.Services
 
         public IEnumerator<ServiceDescriptor> GetEnumerator()
         {
-           return  this.services.Values.GetEnumerator();
+            return this.services.Values.GetEnumerator();
         }
 
         public int IndexOf(ServiceDescriptor item)
@@ -67,14 +72,12 @@ namespace ConsoleAuto.Services
 
         public void RemoveAt(int index)
         {
-             this.services.Remove(index);
+            this.services.Remove(index);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.services.GetEnumerator();
         }
-
-        
     }
 }

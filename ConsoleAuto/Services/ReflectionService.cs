@@ -1,19 +1,22 @@
-﻿using System;
+﻿//
+// Copyright (c) 2019 Daniele Fontani (https://github.com/zeppaman/ConsoleAuto/)
+// RawCMS project is released under LGPL3 terms, see LICENSE file.
+//
+
+using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using System.Linq;
-using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
+using System.Reflection;
 
 namespace ConsoleAuto.Services
 {
     public class ReflectionService
     {
-       
         public ReflectionService()
         {
         }
+
         public List<MethodInfo> GetMethods(Type type, Type annotatedBy)
         {
             return type.GetMethods()
@@ -49,15 +52,18 @@ namespace ConsoleAuto.Services
                 case "bool":
                     typedValue = bool.Parse(strValue);
                     break;
+
                 case "System.Int16":
                 case "System.Int32":
                 case "System.Int64":
                 case "int":
                     typedValue = int.Parse(strValue);
                     break;
+
                 case "System.Guid":
                     typedValue = new Guid(strValue);
                     break;
+
                 case "System.DateTime":
                     typedValue = DateTime.ParseExact(
                                 strValue,
@@ -65,6 +71,7 @@ namespace ConsoleAuto.Services
                                 CultureInfo.InvariantCulture,
                                 DateTimeStyles.AssumeUniversal);
                     break;
+
                 default:
                     typedValue = strValue;
                     break;
@@ -73,16 +80,13 @@ namespace ConsoleAuto.Services
             return typedValue;
         }
 
-
         public object GetDefault(Type type)
         {
             // If no Type was supplied, if the Type was a reference type, or if the Type was a System.Void, return null
             if (type == null || !type.IsValueType || type == typeof(void))
                 return null;
 
-          
-
-            // If the Type is a primitive type, or if it is another publicly-visible value type (i.e. struct), return a 
+            // If the Type is a primitive type, or if it is another publicly-visible value type (i.e. struct), return a
             //  default instance of the value type
             if (type.IsPrimitive || !type.IsNotPublic)
             {
