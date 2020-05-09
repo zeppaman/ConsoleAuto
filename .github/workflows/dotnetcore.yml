@@ -24,6 +24,7 @@ jobs:
           && echo "AssemblyVersion= ${{steps.version.outputs.AssemblyVersion }}"\
           && echo "SimpleVersion= ${{steps.version.outputs.SimpleVersion }}"\
           && echo "BuildNumber= ${{steps.version.outputs.BuildNumber }}"\
+          && echo "Version= ${{steps.version.outputs.Version }}"\
           && echo "CloudBuildNumber= ${{steps.version.outputs.CloudBuildNumber }}"
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
