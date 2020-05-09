@@ -13,14 +13,10 @@ jobs:
 
     steps:
       
-    - uses: actions/checkout@v2
-    - name: Git version
-      id: version
-      uses: AArnott/nbgv@v0.3
-      #with:
-       # setAllVars: true       
+     
     - name: Print version  
-      run:  echo "SemVer2= ${{steps.version.outputs.SemVer2 }}" \
+      run:  echo "RUN ID=$GITHUB_RUN_ID"\
+          && echo "SemVer2= ${{steps.version.outputs.SemVer2 }}" \
           && echo "AssemblyVersion= ${{steps.version.outputs.AssemblyVersion }}"\
           && echo "SimpleVersion= ${{steps.version.outputs.SimpleVersion }}"\
           && echo "BuildNumber= ${{steps.version.outputs.BuildNumber }}"\
