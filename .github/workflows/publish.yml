@@ -21,10 +21,10 @@ jobs:
         uses: rohith/publish-nuget@v2
         with:
           # Filepath of the project to be packaged, relative to root of repository
-          PROJECT_FILE_PATH: Core/Core.csproj
+          PROJECT_FILE_PATH: ConsoleAuto/ConsoleAuto.csproj
           
           # NuGet package id, used for version detection & defaults to project name
-          # PACKAGE_NAME: Core
+          PACKAGE_NAME: ConsoleAuto
           
           # Filepath with version info, relative to root of repository & defaults to PROJECT_FILE_PATH
           # VERSION_FILE_PATH: Directory.Build.props
@@ -36,7 +36,7 @@ jobs:
           # VERSION_STATIC: 1.0.0
 
           # Flag to toggle git tagging, enabled by default
-          # TAG_COMMIT: true
+          TAG_COMMIT: true
 
           # Format of the git tag, [*] gets replaced with actual version
           # TAG_FORMAT: v*
