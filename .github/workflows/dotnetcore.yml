@@ -20,9 +20,10 @@ jobs:
       #with:
        # setAllVars: true        
     - name: Print version  
-      run: dotnet tool install --tool-path . nbgv \
-          && nbgv get-version -f json -p \
-          && echo "SemVer2= ${{steps.version.outputs.SemVer2 }}" \
+      run: dotnet tool install -g nbgv \
+          && nbgv get-version -f json -p > output.json
+    - name: Print version  
+      run: echo "SemVer2= ${{steps.version.outputs.SemVer2 }}" \
           && echo "AssemblyVersion= ${{steps.version.outputs.AssemblyVersion }}"\
           && echo "SimpleVersion= ${{steps.version.outputs.SimpleVersion }}"\
           && echo "BuildNumber= ${{steps.version.outputs.BuildNumber }}"\
