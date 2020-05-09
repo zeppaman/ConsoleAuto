@@ -80,7 +80,7 @@ namespace ConsoleAuto
             return this;
         }
 
-        public ConsoleAuto LoadFromClass(IEnumerable<Type> typeToScan)
+        public ConsoleAuto LoadFromType(IEnumerable<Type> typeToScan)
         {
             foreach (var type in typeToScan)
             {
@@ -103,7 +103,15 @@ namespace ConsoleAuto
 
                 foreach (var par in pars)
                 {
-                    var val = this.reflectionService.GetDefault(par.ParameterType);
+                    object val = null;
+                    if (par.HasDefaultValue)
+                    {
+                        val = par.DefaultValue;
+                    }
+                    else
+                    {
+                       val= this.reflectionService.GetDefault(par.ParameterType);
+                    }
                     defaultArgs[par.Name] = val;
                 
                 }
@@ -140,7 +148,7 @@ namespace ConsoleAuto
         public ConsoleAuto LoadCommands(Assembly assembly)
         {
             var types = assembly.GetTypes();
-            LoadFromClass(types);
+            LoadFromType(types);
             return this;
         }
 

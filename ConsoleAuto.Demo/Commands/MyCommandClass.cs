@@ -7,19 +7,19 @@ namespace ConsoleAuto.Demo.Commands
     
     public class MyCommandClass
     {
-        [ConsoleCommand]
+        [ConsoleCommand()]
         public void CommandOne(int test=23, bool test2=true)
         {
             Console.WriteLine($"{test} + {test2}");
         }
 
-        [ConsoleCommand]
+        [ConsoleCommand (info:"This command has no argument")]
         public void CommandEmpty()
         {
             Console.WriteLine($" no args");
         }
 
-        [ConsoleCommand(name:"Console Named")]
+        [ConsoleCommand(name:"Console Named", info: "This command has a different name from the method name")]
         public void CommandNamed()
         {
             Console.WriteLine($" no args");
