@@ -14,7 +14,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Print version  
-      run:  echo "RUN ID=$GITHUB_RUN_ID"\
+      run:  echo "RUN ID=$GITHUB_RUN_ID" 
+          && echo "${GITHUB_RUN_ID:0:4}"\
+          && echo "${GITHUB_RUN_ID:4:8}"\
           && sed -i "s/1.0.0/1.0.$GITHUB_RUN_ID.$GITHUB_RUN_NUMBER/g" ConsoleAuto/ConsoleAuto.csproj
           && cat ConsoleAuto/ConsoleAuto.csproj
     - name: Setup .NET Core
