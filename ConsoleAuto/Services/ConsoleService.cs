@@ -7,6 +7,13 @@ namespace ConsoleAuto.Services
 {
     public class ConsoleService
     {
+
+        protected ReflectionService reflectionService;
+
+        public ConsoleService(ReflectionService reflectionService)
+        {
+            this.reflectionService = reflectionService;
+        }
         internal void WriteError(string v)
         {
             Console.WriteLine(v);
@@ -29,12 +36,12 @@ namespace ConsoleAuto.Services
 
                     if (IsValidArg(argName))
                     {
-                        currentArgName = argName;
+                        currentArgName = argName.Trim('-');
 
                         status = FSMStates.WaitForValue;
                     }
                 }
-
+                else
 
                 if (status == FSMStates.WaitForValue)
                 {
@@ -51,7 +58,23 @@ namespace ConsoleAuto.Services
             return rawValues;
         }
 
+        internal T Read<T>() 
+        {
+            var strVal= Console.ReadLine();
+            return (T)this.reflectionService.GetValue(typeof(T), strVal) ;
+            
+        }
 
+        internal void Write(string text)
+        {
+            Console.Write(text);
+        }
+
+        public void WriteLine(string text)
+        {
+
+            Console.WriteLine(text);
+        }
 
         private bool IsValidArg(string argName)
         {

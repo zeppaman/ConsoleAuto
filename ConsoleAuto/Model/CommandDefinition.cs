@@ -29,5 +29,10 @@ namespace ConsoleAuto.Model
 
         public int Order { get; set; }
 
+        public bool IsPublic { get; set; } = true;
+
+
+        public string Info { get; set; }
+
     }
 }
