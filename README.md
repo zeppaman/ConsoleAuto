@@ -2,8 +2,8 @@
 Library that automates console argument parsing and script automation.
 
 ![.NET Core](https://github.com/zeppaman/ConsoleAuto/workflows/.NET%20Core/badge.svg)
-![Nuget](https://img.shields.io/nuget/v/ConsoleAuto)
-![Nuget](https://img.shields.io/nuget/dt/ConsoleAuto)
+[![Nuget](https://img.shields.io/nuget/v/ConsoleAuto)](https://www.nuget.org/packages/ConsoleAuto/)
+[![Nuget](https://img.shields.io/nuget/dt/ConsoleAuto)](https://www.nuget.org/packages/ConsoleAuto/)
 
 
 ## Why use this parsing library?
@@ -154,8 +154,7 @@ MyExec.exe  exec MyScript.yaml
 
 
 ## TODOS
-- [ ] manage multiple commands from yaml definition
-- [ ] arg annotations
+
 - [ ] interactive mode
 - [ ] overload for removing default commands/Disabling
 
