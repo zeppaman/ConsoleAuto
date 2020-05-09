@@ -33,7 +33,7 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --configuration Release --no-restore /p:AssemblyVersion=${{steps.version.outputs.Version }}
     - name: Test
       run: dotnet test --no-restore --verbosity normal
     - name: publish on version change
