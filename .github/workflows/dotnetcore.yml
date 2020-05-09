@@ -21,7 +21,10 @@ jobs:
        # setAllVars: true        
     - name: Print version  
       run: echo "SemVer2= ${{steps.version.outputs.SemVer2 }}" \
-          && echo "Simple= ${{steps.version.outputs.SemVer2 }}"
+          && echo "AssemblyVersion= ${{steps.version.outputs.AssemblyVersion }}"\
+          && echo "SimpleVersion= ${{steps.version.outputs.SimpleVersion }}"\
+          && echo "BuildNumber= ${{steps.version.outputs.BuildNumber }}"\
+          && echo "CloudBuildNumber= ${{steps.version.outputs.CloudBuildNumber }}"
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
