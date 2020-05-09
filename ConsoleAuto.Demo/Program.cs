@@ -1,10 +1,13 @@
-﻿using System;
+﻿//
+// Copyright (c) 2019 Daniele Fontani (https://github.com/zeppaman/ConsoleAuto/)
+// RawCMS project is released under LGPL3 terms, see LICENSE file.
+//
 
 namespace ConsoleAuto.Demo
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             ConsoleAuto.Config(args)
                 .LoadCommands()
@@ -17,7 +20,7 @@ namespace ConsoleAuto.Demo
             //   .LoadFromType(typeof(MyCommand)) //load a single command
             //   .Register<MyService>() // add a service di di container used in my commands
             //   .Register<IMyService2>(new Service2()) // add a service di di container used in my commands, with a custom implementation
-            //   .Configure(config => { 
+            //   .Configure(config => {
             //       //hack the config here
             //   })
             //   .Run();

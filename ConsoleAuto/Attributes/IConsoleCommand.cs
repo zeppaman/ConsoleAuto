@@ -1,6 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿//
+// Copyright (c) 2019 Daniele Fontani (https://github.com/zeppaman/ConsoleAuto/)
+// RawCMS project is released under LGPL3 terms, see LICENSE file.
+//
+
+using System;
 using ConsoleAuto.Model;
 
 namespace ConsoleAuto
@@ -14,7 +17,7 @@ namespace ConsoleAuto
 
         public string Info { get; set; }
 
-        public ConsoleCommandAttribute(string name = null, bool isPublic=true, int order=100 , ExecutionMode mode=ExecutionMode.OnDemand, string info="no info provided")
+        public ConsoleCommandAttribute(string name = null, bool isPublic = true, int order = 100, ExecutionMode mode = ExecutionMode.OnDemand, string info = "no info provided")
         {
             Name = name;
             this.IsPublic = isPublic;
@@ -22,6 +25,5 @@ namespace ConsoleAuto
             this.Mode = mode;
             this.Info = Info;
         }
-
     }
 }
