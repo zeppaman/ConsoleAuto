@@ -12,7 +12,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      
     - uses: actions/checkout@v2
+    - name: Git version
+      id: version
+      uses: AArnott/nbgv@v0.3
+      #with:
+       # setAllVars: true        
+    - name: Print version  
+      run: echo "SemVer2= ${{steps.version.outputs.SemVer2 }}" \
+          && echo "AssemblyVersion= ${{steps.version.outputs.AssemblyVersion }}"\
+          && echo "SimpleVersion= ${{steps.version.outputs.SimpleVersion }}"\
+          && echo "BuildNumber= ${{steps.version.outputs.BuildNumber }}"\
+          && echo "Version= ${{steps.version.outputs.Version }}"\
+          && echo "CloudBuildNumber= ${{steps.version.outputs.CloudBuildNumber }}"
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
@@ -23,3 +36,36 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+    - name: publish on version change
+      id: publish_nuget
+      uses: rohith/publish-nuget@v2
+      with:
+        # Filepath of the project to be packaged, relative to root of repository
+        PROJECT_FILE_PATH: ConsoleAuto/ConsoleAuto.csproj
+
+        # NuGet package id, used for version detection & defaults to project name
+        PACKAGE_NAME: ConsoleAuto
+
+        # Filepath with version info, relative to root of repository & defaults to PROJECT_FILE_PATH
+        # VERSION_FILE_PATH: Directory.Build.props
+
+        # Regex pattern to extract version info in a capturing group
+        # VERSION_REGEX: <Version>(.*)<\/Version>
+
+        # Useful with external providers like Nerdbank.GitVersioning, ignores VERSION_FILE_PATH & VERSION_REGEX
+        VERSION_STATIC: ${{steps.version.outputs.SemVer2 }}
+
+        # Flag to toggle git tagging, enabled by default
+        TAG_COMMIT: true
+
+        # Format of the git tag, [*] gets replaced with actual version
+        # TAG_FORMAT: v*
+
+        # API key to authenticate with NuGet server
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+        # NuGet server uri hosting the packages, defaults to https://api.nuget.org
+        # NUGET_SOURCE: https://api.nuget.org
+
+        # Flag to toggle pushing symbols along with nuget package to the server, disabled by default
+        # INCLUDE_SYMBOLS: false
