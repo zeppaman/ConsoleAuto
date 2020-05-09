@@ -16,8 +16,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: version
       uses: AArnott/nbgv@v0.3
-      with:
-        setAllVars: true        
+      #with:
+       # setAllVars: true        
     - name: Print version  
       run: echo "NBGV_SemVer2 $NBGV_SemVer2 or ${{steps.version.outputs.SemVer2 }}"
     - name: Setup .NET Core
