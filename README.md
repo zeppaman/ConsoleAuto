@@ -1,6 +1,10 @@
 # ConsoleAuto
 Library that automates console argument parsing and script automation.
+
 ![.NET Core](https://github.com/zeppaman/ConsoleAuto/workflows/.NET%20Core/badge.svg)
+![Nuget](https://img.shields.io/nuget/v/ConsoleAuto)
+![Nuget](https://img.shields.io/nuget/dt/ConsoleAuto)
+
 
 ## Why use this parsing library?
 Command line parsing is something that usually is approached in this way: you define argument syntax, you parse it using command line parser library and then you use the parameter into the applciation.
@@ -9,6 +13,10 @@ This approach need many steps and it is hard to mantain. This library collapse a
 You just need to declare a method somewhere and add an annotation on it to let things goes in automatic.
 
 See the exampe to learn how this will simplify your console application.
+
+```
+Install-Package ConsoleAuto -Version 0.0.0-gdee2e986fe
+```
 
 
 ## Features
