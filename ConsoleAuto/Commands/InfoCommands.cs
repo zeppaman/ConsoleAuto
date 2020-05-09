@@ -51,9 +51,13 @@ namespace ConsoleAuto.Commands
                 {
                     var command = publicCommands[intVal];
 
-                    foreach (var arg in command.DefaultArgs)
+                    foreach (var arg in command.Params)
                     {
-                        this.consoleService.WriteLine($"{arg.Key} (default: {arg.Value ?? "null"})");
+                        object val = null;
+                        command.DefaultArgs.TryGetValue(arg.Name, out val);
+
+                        var alias=(arg.HasAlias)? "-"+arg.Alias+",":"   ";
+                        this.consoleService.WriteLine($"{alias} --{arg.Name} : {arg.Info} (default: {val ?? "null"})");
                     }
                 }
                 else

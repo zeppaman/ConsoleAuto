@@ -11,7 +11,7 @@ namespace ConsoleAuto.Demo.Commands
     public class MyCommandClass
     {
         [ConsoleCommand()]
-        public void CommandOne([Param(alias: 't')]int test = 23, bool test2 = true)
+        public void CommandOne([Param(alias: 't', Info ="My test input description")]int test = 23, bool test2 = true)
         {
             Console.WriteLine($"You wrote {test} + {test2}");
         }
