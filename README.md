@@ -15,7 +15,7 @@ You just need to declare a method somewhere and add an annotation on it to let t
 See the exampe to learn how this will simplify your console application.
 
 ```
-Install-Package ConsoleAuto -Version 0.0.0-gdee2e986fe
+Install-Package ConsoleAuto
 ```
 
 
