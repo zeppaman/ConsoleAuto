@@ -14,7 +14,8 @@ jobs:
     steps:
       
     - uses: actions/checkout@v2
-    - name: version
+    - name: Git version
+      id: version
       uses: AArnott/nbgv@v0.3
       #with:
        # setAllVars: true        
