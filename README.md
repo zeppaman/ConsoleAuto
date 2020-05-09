@@ -150,12 +150,28 @@ MyExec.exe  exec MyScript.yaml
 
 
 
-[Icons made by Eucalyp from Flaticon](https://www.flaticon.com/authors/eucalyp)
+
 
 
 ## TODOS
 
 - [ ] interactive mode
 - [ ] overload for removing default commands/Disabling
+
+## LICENSE
+
+This library is released under the term of MIT License.
+
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+[Icons made by Eucalyp from Flaticon](https://www.flaticon.com/authors/eucalyp)
 
 
