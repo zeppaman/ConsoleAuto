@@ -13,6 +13,8 @@ namespace ConsoleAuto.Model
 
         public List<CommandImplementation> AvailableCommands { get; set; } = new List<CommandImplementation>();
 
+        public string DefaultCommand { get; set; } = "info";
+        
         public ConsoleAutoConfig()
         {
         }

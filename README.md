@@ -10,7 +10,7 @@ Library that automates console argument parsing and script automation.
 Command line parsing is something that usually is approached in this way: you define argument syntax, you parse it using command line parser library and then you use the parameter into the applciation.
 This approach need many steps and it is hard to mantain. This library collapse all steps in just one: describe your method.
 
-You just need to declare a method somewhere and add an annotation on it to let things goes in automatic.
+You just need to declare a method somewhere and add an annotation on it to let things goes in automatic. Another interesting scenario is the execution of multiple commands by config yaml file (similar to the docker files mechanism).
 
 See the exampe to learn how this will simplify your console application.
 
@@ -86,6 +86,7 @@ public class IOCommands
     .LoadFromType(typeof(MyCommand)) //load a single command
     .Register<MyService>() // add a service di di container used in my commands
     .Register<IMyService2>(new Service2()) // add a service di di container used in my commands, with a custom implementation
+    .Default("MyDefaultCommand") //specify the default action if app starts without any command
     .Configure(config => { 
         //hack the config here
     })
@@ -100,6 +101,8 @@ public class IOCommands
 | Register  | register a dependency for commands. If you are using DI on main application the dependency will be added on main DI container also. If you are using DI and you already added dependency you do not need to register.  |
 | Configure  | this exposes the resulting configuration. Use at your risk. |
 | Run  | Execute the program  |
+| Default  | the command executed if no command is specified. default value is the info command. |
+
 
 #### Command options
 
@@ -109,6 +112,45 @@ public class IOCommands
 | IsPublic  |  if true it is visible on console info |
 | Mode  | Can be on-demand,   |
 | Order  | the execution order for non on-demand, BeforeCommand, or AfterCommand. The on deamand options is the default one and probably what you usually whant. The commands do nothing unless the user run it from command line. After and Before mode run the command *anytime* you run an ondemand command. For example, the "welcome" or "pres a key to close" are before and after event.    |
+
+
+### Programmatic usage usage
+
+This tool can be used to execute a set of action. In this mode you can define many atomic commands and then define the sequence using an external file. 
+
+The settings file MyScript.yaml
+
+```yaml
+Commands:
+    welcome_step1:
+       Action: welcome
+       Desctiption: This is the line of text that will shown first 
+       Args:
+            header: my text (first line)
+    welcome_step2:
+       Action: welcome
+       Desctiption:  In this example we do it twice, to prove we can execute commands multiple times with different args.
+       Args:
+           header: my text (second line)
+    main_step:
+       Action: CommandOne
+       Desctiption: This is a custom command that diplay the test. Yes, another dummy thing.
+       Args:
+         text: I'm the central command output!
+State:
+   text: myglobal
+
+
+
+```
+
+```bash
+MyExec.exe  exec MyScript.yaml
+```
+
+
+
+
 
 
 ## TODOS

@@ -13,6 +13,5 @@ namespace ConsoleAuto.Model
 
         public Dictionary<string, CommandDefinition> Commands { get; set; }
 
-        public string EntryCommand { get; set; } = "info";
     }
 }

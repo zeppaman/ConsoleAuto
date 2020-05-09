@@ -1,0 +1,19 @@
+﻿Commands:
+    welcome_step1:
+       Action: welcome
+       Desctiption: 
+       Args:
+            header: my text (first line)
+    welcome_step2:
+       Action: welcome
+       Desctiption: 
+       Args:
+           header: my text (second line)
+    main_step:
+       Action: CommandOne
+       Desctiption: 
+       Args:
+         text: I'm the central command output!
+State:
+   text: myglobal
+

@@ -11,9 +11,9 @@ namespace ConsoleAuto.Demo.Commands
     public class MyCommandClass
     {
         [ConsoleCommand()]
-        public void CommandOne([Param(alias: 't', Info ="My test input description")]int test = 23, bool test2 = true)
+        public void CommandOne([Param(alias: 't', Info ="My test input description")]int test = 23, bool test2 = true, string text="")
         {
-            Console.WriteLine($"You wrote {test} + {test2}");
+            Console.WriteLine($"You wrote {text} {test} + {test2}");
         }
 
         [ConsoleCommand(info: "This command has no argument")]

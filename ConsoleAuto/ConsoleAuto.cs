@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using ConsoleAuto.Attributes;
@@ -12,6 +13,8 @@ using ConsoleAuto.Exceptions;
 using ConsoleAuto.Model;
 using ConsoleAuto.Services;
 using Microsoft.Extensions.DependencyInjection;
+using YamlDotNet;
+using YamlDotNet.Serialization;
 
 namespace ConsoleAuto
 {
@@ -26,6 +29,9 @@ namespace ConsoleAuto
         private IServiceProvider sp;
         private IServiceCollection serviceBuilder;
 
+        Deserializer deserializer = new YamlDotNet.Serialization.Deserializer();
+
+        
         public ConsoleAuto(string[] args = null, IServiceCollection serviceBuilder = null)
         {
             config = new ConsoleAutoConfig();
@@ -40,6 +46,10 @@ namespace ConsoleAuto
 
             this.reflectionService = this.sp.GetService(typeof(ReflectionService)) as ReflectionService;
             this.consoleService = this.sp.GetService(typeof(ConsoleService)) as ConsoleService;
+
+
+           deserializer = new Deserializer();
+            
         }
 
         public static ConsoleAuto Config(string[] args)
@@ -163,23 +173,75 @@ namespace ConsoleAuto
             return this;
         }
 
+        public ConsoleAuto Default(string commandname)
+        {
+            this.config.DefaultCommand = commandname;
+            return this;
+        }
         public void LoadInputArgument()
         {
             //First argument with no -- or - is the command
             var command = args.FirstOrDefault();
 
             var parArgs = args.ToArray();
+
             if (command != null && !command.Contains("-") && !string.IsNullOrEmpty(command))
             {
-                this.config.programDefinition.EntryCommand = command;
                 parArgs = args.Skip(1).ToArray();
             }
+            else
+            {
+                command = this.config.DefaultCommand;
+            }
+
+
+
+
+            //Flush all data to Program definition
+
+            if ("exec".Equals(command))
+            {
+                parArgs = args.Skip(2).ToArray();
+
+                var yaml = File.ReadAllText(args[1]);
+                this.config.programDefinition = deserializer.Deserialize<ProgramDefinition>(yaml);
+
+
+            }
+            else
+            {
+                var beforeCommands = this.config.AvailableCommands.Where(x => x.Mode == ExecutionMode.BeforeCommand).OrderBy(x => x.Order).ToList();
+                var afterCommands = this.config.AvailableCommands.Where(x => x.Mode == ExecutionMode.AfterCommand).OrderBy(x => x.Order).ToList();
+                var commandToExecute = this.config.AvailableCommands.Where(x => command.Equals(x.Name)).FirstOrDefault();
+
+                var commandList = new List<CommandImplementation>();
+
+                commandList.AddRange(beforeCommands);
+                commandList.Add(commandToExecute);
+                commandList.AddRange(afterCommands);
+
+                int i = 0;
+                this.config.programDefinition.Commands = new Dictionary<string, CommandDefinition>();
+                commandList.ForEach(command => {
+                    this.config.programDefinition.Commands.Add("command" + i, new CommandDefinition()
+                    {
+                        Action=command.Name,
+                        Desctiption=command.Info
+                        // args are  empty and taken from state only
+                    });
+                    i ++;
+                });
+
+                
+            }
+
+
 
             var rawValues = consoleService.ParseInputArgs(parArgs);
 
             foreach (var val in rawValues)
             {
-                var keyDecoded = val.Key;              
+                var keyDecoded = val.Key;
 
                 this.config.programDefinition.State[val.Key] = val.Value;
             }
@@ -194,28 +256,13 @@ namespace ConsoleAuto
             RegisterAllCommands();
             LoadInputArgument();
 
-            var beforeCommands = this.config.AvailableCommands.Where(x => x.Mode == ExecutionMode.BeforeCommand).OrderBy(x => x.Order).ToList();
-            var afterCommands = this.config.AvailableCommands.Where(x => x.Mode == ExecutionMode.AfterCommand).OrderBy(x => x.Order).ToList();
-
-            var commandToExecute = this.config.AvailableCommands.Where(x => x.Name == this.config.programDefinition.EntryCommand).FirstOrDefault();
-
-            if (commandToExecute == null)
+            foreach (var command in this.config.programDefinition.Commands)
             {
-                consoleService.WriteError("Command not found.");
-                throw new TerminateException();
+                var commandDef = command.Value;
+                var commandImpl = this.config.AvailableCommands.FirstOrDefault(x => x.Name == commandDef.Action);
+
+                InvokeCommand(commandImpl, commandDef);
             }
-
-            beforeCommands.ForEach(x =>
-            {
-                InvokeCommand(x);
-            });
-
-            InvokeCommand(commandToExecute);
-
-            afterCommands.ForEach(x =>
-            {
-                InvokeCommand(x);
-            });
         }
 
         private void RegisterAllCommands()
@@ -231,9 +278,10 @@ namespace ConsoleAuto
             this.sp = this.serviceBuilder.BuildServiceProvider();
         }
 
-        private void InvokeCommand(CommandImplementation x)
+        private void InvokeCommand(CommandImplementation commandImpl, CommandDefinition commandDefinition)
         {
 
+            //argument from outiside can be aliased. now are normalized. (TODO: this can done once or is different command per command?)            
             var localArgument = new Dictionary<string, object>();
 
             foreach (var item in this.config.programDefinition.State)
@@ -241,7 +289,7 @@ namespace ConsoleAuto
                 var localKey = item.Key;
                 if (localKey.Length == 1)
                 {
-                    var par=x.Params.FirstOrDefault(x => x.Alias.ToString().Equals(localKey, StringComparison.InvariantCultureIgnoreCase));
+                    var par=commandImpl.Params.FirstOrDefault(x => x.Alias.ToString().Equals(localKey, StringComparison.InvariantCultureIgnoreCase));
                     if (par != null)
                     {
                         localKey = par.Name;
@@ -250,49 +298,50 @@ namespace ConsoleAuto
                 localArgument[localKey] = item.Value;
             }
 
+
             object instance = null;
-            if (!x.Method.IsStatic)
+            if (!commandImpl.Method.IsStatic)
             {
-                instance = this.sp.GetService(x.Method.DeclaringType);
+                instance = this.sp.GetService(commandImpl.Method.DeclaringType);
             }
             var args = new List<object>();
             //merge with data
 
-            foreach (var par in x.Method.GetParameters())
+            foreach (var par in commandImpl.Method.GetParameters())
             {
                 object strValue = null;
+                object val = null;
 
-                if (localArgument.TryGetValue(par.Name, out strValue))
+                if (commandDefinition.Args!=null && commandDefinition.Args.TryGetValue(par.Name, out strValue))
                 {
-                    if (strValue is string)
-                    {
-                        var obj = this.reflectionService.GetValue(par.ParameterType, strValue as string);
-                        args.Add(obj);
-                    }
-                    else
-                    {
-                        args.Add(strValue);
-                    }
+                    val = TryGetValueFromString(args, par, strValue);
                 }
-                else if (x.DefaultArgs.TryGetValue(par.Name, out strValue))
+                else if (localArgument.TryGetValue(par.Name, out strValue))
                 {
-                    if (strValue is string)
-                    {
-                        var obj = this.reflectionService.GetValue(par.ParameterType, strValue as string);
-                        args.Add(obj);
-                    }
-                    else
-                    {
-                        args.Add(strValue);
-                    }
+                    val = TryGetValueFromString(args, par, strValue);
+                }
+                else if (commandImpl.DefaultArgs.TryGetValue(par.Name, out strValue))
+                {
+                    val = TryGetValueFromString(args, par, strValue);
                 }
                 else
                 {
-                    args.Add(par.DefaultValue ?? null);
+                    val = par.DefaultValue ?? null;                    
                 }
+                args.Add(val);
             }
 
-            x.Method.Invoke(instance, args.ToArray());
+            commandImpl.Method.Invoke(instance, args.ToArray());
+        }
+
+        private object TryGetValueFromString(List<object> args, ParameterInfo par, object strValue)
+        {
+            if (strValue is string)
+            {
+                return this.reflectionService.GetValue(par.ParameterType, strValue as string);
+            }
+            
+            return strValue;
         }
 
         public ConsoleAuto LoadCommands()

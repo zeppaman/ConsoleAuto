@@ -9,4 +9,10 @@
     <ProjectReference Include="..\ConsoleAuto\ConsoleAuto.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="test.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

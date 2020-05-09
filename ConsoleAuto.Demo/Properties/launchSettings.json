@@ -2,7 +2,7 @@
   "profiles": {
     "ConsoleAuto.Demo": {
       "commandName": "Project",
-      "commandLineArgs": "CommandOne -t 33 --test2 false"
+      "commandLineArgs": "exec test.yaml"
     }
   }
 }

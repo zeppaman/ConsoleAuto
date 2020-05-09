@@ -9,6 +9,12 @@ namespace ConsoleAuto.Demo
     {
         private static void Main(string[] args)
         {
+            /*
+             Examples:
+             ConsoleAuto.Demo CommandOne -t 33 --test2 false
+             ConsoleAuto.Demo exec test.yaml
+             ConsoleAuto.Demo
+             */
             ConsoleAuto.Config(args)
                 .LoadCommands()
                 .Run();
