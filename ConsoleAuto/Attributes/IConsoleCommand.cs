@@ -6,7 +6,7 @@
 using System;
 using ConsoleAuto.Model;
 
-namespace ConsoleAuto
+namespace ConsoleAuto.Attributes
 {
     public class ConsoleCommandAttribute : Attribute
     {

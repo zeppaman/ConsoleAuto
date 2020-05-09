@@ -3,6 +3,7 @@
 // RawCMS project is released under LGPL3 terms, see LICENSE file.
 //
 
+using ConsoleAuto.Attributes;
 using ConsoleAuto.Services;
 
 namespace ConsoleAuto.Commands

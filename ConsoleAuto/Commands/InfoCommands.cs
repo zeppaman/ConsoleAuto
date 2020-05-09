@@ -5,6 +5,7 @@
 
 using System.Linq;
 using System.Reflection;
+using ConsoleAuto.Attributes;
 using ConsoleAuto.Model;
 using ConsoleAuto.Services;
 

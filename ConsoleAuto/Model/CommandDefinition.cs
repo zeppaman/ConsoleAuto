@@ -14,6 +14,7 @@ namespace ConsoleAuto.Model
 
         public string Desctiption { get; set; }
         public Dictionary<string, object> Args { get; set; } = new Dictionary<string, object>();
+
     }
 
     public class CommandImplementation
@@ -31,5 +32,7 @@ namespace ConsoleAuto.Model
         public bool IsPublic { get; set; } = true;
 
         public string Info { get; set; }
+
+        public List<ParamImplementation> Params { get; set; } = new List<ParamImplementation>();
     }
 }

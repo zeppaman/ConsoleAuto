@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using ConsoleAuto.Attributes;
 using ConsoleAuto.Exceptions;
 using ConsoleAuto.Model;
 using ConsoleAuto.Services;
@@ -99,6 +100,7 @@ namespace ConsoleAuto
 
                 var defaultArgs = new Dictionary<string, object>();
 
+                var parImpls= new List<ParamImplementation>();
                 foreach (var par in pars)
                 {
                     object val = null;
@@ -111,6 +113,18 @@ namespace ConsoleAuto
                         val = this.reflectionService.GetDefault(par.ParameterType);
                     }
                     defaultArgs[par.Name] = val;
+
+                    //get annotatinon
+
+                    var parAnnotation=par.GetCustomAttributes<ParamAttribute>().FirstOrDefault() ;
+                  
+                    parImpls.Add(new ParamImplementation()
+                    {
+                        Name = parAnnotation?.Name??par.Name,
+                        Alias = parAnnotation?.Alias ?? default(char),
+                        Info = parAnnotation?.Info
+                    });
+                    
                 }
 
                 var methodInfo = reflectionService.GetMethodAnnotation<ConsoleCommandAttribute>(method);
@@ -125,7 +139,8 @@ namespace ConsoleAuto
                     IsPublic = methodInfo.IsPublic,
                     Order = methodInfo.Order,
                     Mode = methodInfo.Mode,
-                    Info = methodInfo.Info
+                    Info = methodInfo.Info,
+                    Params=parImpls
                 });
             });
 
@@ -164,6 +179,8 @@ namespace ConsoleAuto
 
             foreach (var val in rawValues)
             {
+                var keyDecoded = val.Key;              
+
                 this.config.programDefinition.State[val.Key] = val.Value;
             }
         }
@@ -216,6 +233,23 @@ namespace ConsoleAuto
 
         private void InvokeCommand(CommandImplementation x)
         {
+
+            var localArgument = new Dictionary<string, object>();
+
+            foreach (var item in this.config.programDefinition.State)
+            {
+                var localKey = item.Key;
+                if (localKey.Length == 1)
+                {
+                    var par=x.Params.FirstOrDefault(x => x.Alias.ToString().Equals(localKey, StringComparison.InvariantCultureIgnoreCase));
+                    if (par != null)
+                    {
+                        localKey = par.Name;
+                     }
+                }
+                localArgument[localKey] = item.Value;
+            }
+
             object instance = null;
             if (!x.Method.IsStatic)
             {
@@ -228,7 +262,7 @@ namespace ConsoleAuto
             {
                 object strValue = null;
 
-                if (this.config.programDefinition.State.TryGetValue(par.Name, out strValue))
+                if (localArgument.TryGetValue(par.Name, out strValue))
                 {
                     if (strValue is string)
                     {

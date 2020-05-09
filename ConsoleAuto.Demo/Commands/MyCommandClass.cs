@@ -4,13 +4,14 @@
 //
 
 using System;
+using ConsoleAuto.Attributes;
 
 namespace ConsoleAuto.Demo.Commands
 {
     public class MyCommandClass
     {
         [ConsoleCommand()]
-        public void CommandOne(int test = 23, bool test2 = true)
+        public void CommandOne([Param(alias: 't')]int test = 23, bool test2 = true)
         {
             Console.WriteLine($"You wrote {test} + {test2}");
         }
