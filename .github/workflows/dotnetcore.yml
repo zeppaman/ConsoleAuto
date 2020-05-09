@@ -12,11 +12,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Nerdbank.GitVersioning
     - uses: AArnott/nbgv@v0.3
+    - name: Nerdbank.GitVersioning
       with:
-        setAllVars: true
-        
+        setAllVars: true        
     - name: Print version  
       run: echo "NBGV_SemVer2 $NBGV_SemVer2"
       
