@@ -22,7 +22,7 @@ jobs:
     - name: install nbgv  
       run: /usr/bin/dotnet tool install -g nbgv
     - name: run json
-      run: nbgv get-version -f json -p | echo
+      run: nbgv get-version -f json -p . | echo  && nbgv get-version -v Version
     - name: Print version  
       run: echo "SemVer2= ${{steps.version.outputs.SemVer2 }}" \
           && echo "AssemblyVersion= ${{steps.version.outputs.AssemblyVersion }}"\
