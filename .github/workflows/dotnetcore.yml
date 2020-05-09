@@ -14,11 +14,15 @@ jobs:
     steps:
       
     - uses: actions/checkout@v2
-    - name: Git version
-      id: version
-      uses: AArnott/nbgv@v0.3
+   # - name: Git version
+   #   id: version
+   #   uses: AArnott/nbgv@v0.3
       #with:
        # setAllVars: true        
+    - name: install nbgv  
+      run: /usr/bin/dotnet tool install -g nbgv
+    - name: run json
+      run: nbgv install && nbgv get-version -f json -p . | echo  && nbgv get-version -v Version
     - name: Print version  
       run: echo "SemVer2= ${{steps.version.outputs.SemVer2 }}" \
           && echo "AssemblyVersion= ${{steps.version.outputs.AssemblyVersion }}"\
