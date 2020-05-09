@@ -51,9 +51,10 @@ namespace ConsoleAuto.Demo.Test
             Assert.True(config.AvailableCommands.Any(x => x.Name == "Console Named"));
 
             var commandOne = config.AvailableCommands.FirstOrDefault(x => x.Name == "CommandOne");
-            Assert.True(commandOne.DefaultArgs.Count == 2);
+            Assert.True(commandOne.DefaultArgs.Count == 3);
             Assert.True(commandOne.DefaultArgs.ContainsKey("test"));
             Assert.True(commandOne.DefaultArgs.ContainsKey("test2"));
+            Assert.True(commandOne.DefaultArgs.ContainsKey("text"));
             Assert.Equal(commandOne.DefaultArgs["test"], 23);
             Assert.Equal(commandOne.DefaultArgs["test2"], true);
         }
